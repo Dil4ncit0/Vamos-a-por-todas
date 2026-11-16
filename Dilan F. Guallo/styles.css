@@ -1,0 +1,176 @@
+:root {
+  --rosa: #e63965;
+  --rosa-oscuro: #c2254f;
+  --gris: #8a8f98;
+  --texto: #2b2230;
+  --fondo-1: #ffe3ec;
+  --fondo-2: #ffd1dc;
+  --fuente-titulo: "Playfair Display", Georgia, "Times New Roman", serif;
+  --fuente-texto: "Nunito", "Trebuchet MS", Verdana, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body { min-height: 100dvh; }
+
+body {
+  font-family: var(--fuente-texto);
+  color: var(--texto);
+  background: linear-gradient(135deg, var(--fondo-1), var(--fondo-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+
+/* ---------- Collage de fondo: fotos sueltas y desordenadas ---------- */
+.collage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.collage .foto {
+  position: absolute;
+  display: block;
+  animation: aparecer .5s ease-out both;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; scale: .3; }
+}
+
+/* ---------- Confeti de fondo ---------- */
+.confeti {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---------- Contenido central (sin marco) ---------- */
+.contenido {
+  position: relative;
+  z-index: 60;                 /* por encima de las fotos del collage */
+  width: min(620px, 100%);
+  text-align: center;
+}
+
+h1 {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 6.2vw, 2.4rem);
+  margin: 0 0 28px;
+  line-height: 1.25;
+  text-wrap: balance;
+  /* Contorno blanco: la frase se lee encima de cualquier foto */
+  -webkit-text-stroke: 7px #fff;
+  paint-order: stroke fill;
+}
+
+/* Halo blanco para que el texto se lea encima de las fotos */
+h1, .subtitulo, label, .error {
+  text-shadow:
+    0 0 4px #fff, 0 0 8px #fff, 0 0 14px #fff, 0 0 22px #fff, 0 0 32px #fff;
+}
+
+#vista-gracias h1 { margin-bottom: 0; }
+
+.subtitulo { margin: -14px 0 24px; color: #3d3445; font-weight: 600; }
+
+/* ---------- Botones ---------- */
+.botones {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.btn {
+  font-family: var(--fuente-texto);
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: .7em 1.9em;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fff;
+  transition: font-size .25s ease, background-color .2s ease, transform .1s ease;
+}
+
+.btn {
+  box-shadow: 0 6px 18px rgba(60, 20, 40, .3);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;   /* sin zoom por doble toque en móvil */
+}
+
+.btn:active { transform: scale(.96); }
+.btn:disabled { opacity: .6; cursor: wait; }
+.btn:focus-visible { outline: 3px solid #2b2230; outline-offset: 3px; }
+
+.btn-si { background: var(--rosa); }
+.btn-si:hover { background: var(--rosa-oscuro); }
+
+.btn-no { background: var(--gris); }
+.btn-no:hover { background: #6f747d; }
+
+/* El "No" cuando ya va suelto por la pantalla */
+.btn-no.suelto {
+  position: fixed;
+  z-index: 70;
+  margin: 0;
+  white-space: nowrap;
+  transition: left .35s ease, top .35s ease, font-size .25s ease;
+}
+
+/* Zona de pulsación ampliada: aunque encoja, se puede tocar con el dedo */
+.btn-no.suelto::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+
+/* ---------- Formulario ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  width: min(440px, 100%);
+  margin: 0 auto;
+}
+
+label { font-weight: 600; font-size: .95rem; }
+
+input[type="email"] {
+  font: inherit;
+  font-size: 1rem;             /* 16px: evita el zoom automático en iPhone */
+  padding: 13px 14px;
+  background: #fff;
+  border: 2px solid #e2c6d0;
+  border-radius: 12px;
+  width: 100%;
+}
+
+input[type="email"]:focus { outline: none; border-color: var(--rosa); }
+input.invalido { border-color: #d32f2f; }
+
+.error { margin: 0; color: #b71c1c; font-size: .92rem; font-weight: 600; }
+
+form .btn { align-self: center; margin-top: 10px; }
+
+[hidden] { display: none !important; }
+
+/* ---------- Móvil ---------- */
+@media (max-width: 600px) {
+  body { padding: 20px; }
+  .botones { gap: 14px; }
+  .btn { padding: .7em 1.6em; }
+}
